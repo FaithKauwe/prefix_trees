@@ -8,8 +8,9 @@ class PrefixTreeNode:
     the tree's root node to a terminal node that marks the end of the string."""
 
     # Choose an appropriate type of data structure to store children nodes in
-    # Hint: Choosing list or dict affects implementation of all child methods
-    CHILDREN_TYPE = list  # or dict
+    # I am choosing dict as it's accessible by keys and provides more flexibility than lists
+    # which are only accesisble through indexes
+    CHILDREN_TYPE = dict  
 
     def __init__(self, character=None):
         """Initialize this prefix tree node with the given character value, an
@@ -23,23 +24,32 @@ class PrefixTreeNode:
 
     def is_terminal(self):
         """Return True if this prefix tree node terminates a string."""
-        # TODO: Determine if this node is terminal
+        if self.terminal == True:
+            return self.terminal
+        else:
+            return False
 
     def num_children(self):
         """Return the number of children nodes this prefix tree node has."""
-        # TODO: Determine how many children this node has
+        return len(self.children)
 
     def has_child(self, character):
         """Return True if this prefix tree node has a child node that
         represents the given character amongst its children."""
-        # TODO: Check if given character is amongst this node's children
+        # check the dicts keys for the given char
+        if character in self.children.keys():
+            return True
+        else:
+            return False
 
     def get_child(self, character):
         """Return this prefix tree node's child node that represents the given
         character if it is amongst its children, or raise ValueError if not."""
         if self.has_child(character):
-            # TODO: Find child node for given character in this node's children
-            ...
+        # self is the node itself and self.children is the dict living inside the node
+        # self.children[character] is the value of the character key at that internal dict
+            return self.children[character]
+            
         else:
             raise ValueError(f'No child exists for character {character!r}')
 
@@ -47,8 +57,8 @@ class PrefixTreeNode:
         """Add the given character and child node as a child of this node, or
         raise ValueError if given character is amongst this node's children."""
         if not self.has_child(character):
-            # TODO: Add given character and child node to this node's children
-            ...
+        # add the new key/value pair to the inner dict
+            self.children[character]=child_node
         else:
             raise ValueError(f'Child exists for character {character!r}')
 
